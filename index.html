@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Be My Valentine?</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #fce4ec;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .card {
+            background: white;
+            padding: 2rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            text-align: center;
+            width: 350px;
+            position: relative;
+        }
+
+        .cat-img {
+            width: 150px;
+            margin-bottom: 1rem;
+        }
+
+        h1 {
+            color: #4a4a4a;
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .btn-container {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            height: 50px;
+        }
+
+        button {
+            padding: 10px 25px;
+            font-size: 1rem;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        #yesBtn {
+            background-color: #ff4d6d;
+            color: white;
+            font-weight: bold;
+        }
+
+        #noBtn {
+            background-color: #e0e0e0;
+            color: #757575;
+            position: absolute; /* Allows it to jump around */
+        }
+
+        .success-content {
+            display: none;
+        }
+
+        .celebration-gif {
+            width: 100%;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="card" id="mainCard">
+        <div id="questionArea">
+            <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExOHpueG56amR6bmZ6bmZ6bmZ6bmZ6bmZ6bmZ6bmZ6bmZ6bmZ6bmZ6JmVwPXYxX2ludGVybmFsX2dpZl9ieV9pZCZjdD1z/K97m8i68oT76v4j4vH/giphy.gif" alt="Cute Cat" class="cat-img">
+            <h1>Will you be my valentine Ramana?</h1>
+            <div class="btn-container">
+                <button id="yesBtn" onclick="celebrate()">Yes ❤️</button>
+                <button id="noBtn" onclick="moveButton()">No 💔</button>
+            </div>
+        </div>
+
+        <div id="successArea" class="success-content">
+            <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExNmcyeW56amR6bmZ6bmZ6bmZ6bmZ6bmZ6bmZ6bmZ6bmZ6bmZ6bmZ6JmVwPXYxX2ludGVybmFsX2dpZl9ieV9pZCZjdD1n/6nuiJpGfLPP8I/giphy.gif" alt="Celebration" class="celebration-gif">
+            <h2 style="color: #ff4d6d;">It's a date then!</h2>
+            <p>Can't wait to see you! ✨</p>
+        </div>
+    </div>
+
+    <script>
+        function moveButton() {
+            const btn = document.getElementById('noBtn');
+            // Calculate random position within the card's boundaries
+            const x = Math.random() * (window.innerWidth - btn.offsetWidth);
+            const y = Math.random() * (window.innerHeight - btn.offsetHeight);
+            
+            // Move the button to the random position
+            btn.style.left = Math.random() * 200 + 'px';
+            btn.style.top = Math.random() * 300 + 'px';
+        }
+
+        function celebrate() {
+            document.getElementById('questionArea').style.display = 'none';
+            document.getElementById('successArea').style.display = 'block';
+        }
+    </script>
+</body>
+</html>
