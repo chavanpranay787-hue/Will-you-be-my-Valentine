@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Be My Valentine?</title>
+    <title>Be My Valentine Ramana?</title>
     <style>
         body {
             display: flex;
@@ -11,45 +11,50 @@
             align-items: center;
             height: 100vh;
             margin: 0;
-            background-color: #fce4ec;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: url('background.jpg') no-repeat center center fixed;
+            background-size: cover;
+            font-family: 'Arial', sans-serif;
+            overflow: hidden;
         }
 
         .card {
-            background: white;
-            padding: 2rem;
-            border-radius: 20px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            background: rgba(255, 255, 255, 0.9);
+            padding: 2.5rem;
+            border-radius: 30px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
             text-align: center;
-            width: 350px;
-            position: relative;
+            max-width: 400px;
+            width: 90%;
+            z-index: 10;
         }
 
-        .cat-img {
-            width: 150px;
+        .kitten-img {
+            width: 180px;
+            border-radius: 15px;
             margin-bottom: 1rem;
         }
 
         h1 {
-            color: #4a4a4a;
-            font-size: 1.5rem;
-            margin-bottom: 2rem;
+            color: #333;
+            font-size: 1.6rem;
         }
 
         .btn-container {
             display: flex;
-            justify-content: center;
+            flex-direction: column;
+            align-items: center;
             gap: 20px;
-            height: 50px;
+            min-height: 120px;
+            margin-top: 20px;
         }
 
         button {
-            padding: 10px 25px;
-            font-size: 1rem;
+            padding: 12px 25px;
+            font-size: 1.1rem;
             border: none;
-            border-radius: 10px;
+            border-radius: 12px;
             cursor: pointer;
-            transition: transform 0.2s;
+            transition: transform 0.2s ease-in-out;
         }
 
         #yesBtn {
@@ -59,18 +64,44 @@
         }
 
         #noBtn {
-            background-color: #e0e0e0;
-            color: #757575;
-            position: absolute; /* Allows it to jump around */
+            background-color: #757575;
+            color: white;
         }
 
+        /* Success screen styling */
         .success-content {
             display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.9);
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            text-align: center;
         }
 
-        .celebration-gif {
-            width: 100%;
-            border-radius: 10px;
+        .fireworks-gif {
+            width: 80%;
+            max-width: 500px;
+            border-radius: 20px;
+        }
+
+        .success-text {
+            color: white;
+            font-size: 2rem;
+            margin-top: 20px;
+        }
+
+        #countdown {
+            color: #ff4d6d;
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-top: 10px;
+            letter-spacing: 2px;
         }
     </style>
 </head>
@@ -78,36 +109,58 @@
 
     <div class="card" id="mainCard">
         <div id="questionArea">
-            <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExOHpueG56amR6bmZ6bmZ6bmZ6bmZ6bmZ6bmZ6bmZ6bmZ6bmZ6bmZ6JmVwPXYxX2ludGVybmFsX2dpZl9ieV9pZCZjdD1z/K97m8i68oT76v4j4vH/giphy.gif" alt="Cute Cat" class="cat-img">
+            <img src="kitten.jpg" alt="Black Kitten" class="kitten-img">
             <h1>Will you be my valentine Ramana?</h1>
             <div class="btn-container">
                 <button id="yesBtn" onclick="celebrate()">Yes ❤️</button>
-                <button id="noBtn" onclick="moveButton()">No 💔</button>
+                <button id="noBtn" onclick="growYes()">No 💔</button>
             </div>
-        </div>
-
-        <div id="successArea" class="success-content">
-            <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExNmcyeW56amR6bmZ6bmZ6bmZ6bmZ6bmZ6bmZ6bmZ6bmZ6bmZ6bmZ6JmVwPXYxX2ludGVybmFsX2dpZl9ieV9pZCZjdD1n/6nuiJpGfLPP8I/giphy.gif" alt="Celebration" class="celebration-gif">
-            <h2 style="color: #ff4d6d;">It's a date then!</h2>
-            <p>Can't wait to see you! ✨</p>
         </div>
     </div>
 
+    <div id="successArea" class="success-content">
+        <img src="https://media.giphy.com/media/26tOZ42Mg6pbTUPHW/giphy.gif" alt="Fireworks" class="fireworks-gif">
+        <h2 class="success-text">It's a date then! ❤️✨</h2>
+        <div style="color: white; margin-top: 20px;">Countdown to our day:</div>
+        <div id="countdown"></div>
+    </div>
+
     <script>
-        function moveButton() {
-            const btn = document.getElementById('noBtn');
-            // Calculate random position within the card's boundaries
-            const x = Math.random() * (window.innerWidth - btn.offsetWidth);
-            const y = Math.random() * (window.innerHeight - btn.offsetHeight);
+        let scale = 1;
+
+        function growYes() {
+            scale += 0.5;
+            const yesBtn = document.getElementById('yesBtn');
+            yesBtn.style.transform = `scale(${scale})`;
             
-            // Move the button to the random position
-            btn.style.left = Math.random() * 200 + 'px';
-            btn.style.top = Math.random() * 300 + 'px';
+            const phrases = ["Are you sure?", "Really?", "Think again!", "Pwease?", "Wrong button!"];
+            document.getElementById('noBtn').innerText = phrases[Math.floor(Math.random() * phrases.length)];
         }
 
         function celebrate() {
-            document.getElementById('questionArea').style.display = 'none';
-            document.getElementById('successArea').style.display = 'block';
+            document.getElementById('mainCard').style.display = 'none';
+            document.getElementById('successArea').style.display = 'flex';
+            startCountdown();
+        }
+
+        function startCountdown() {
+            const targetDate = new Date("Feb 14, 2026 00:00:00").getTime();
+
+            setInterval(function() {
+                const now = new Date().getTime();
+                const distance = targetDate - now;
+
+                if (distance < 0) {
+                    document.getElementById("countdown").innerHTML = "HAPPY VALENTINE'S DAY!";
+                    return;
+                }
+
+                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+                document.getElementById("countdown").innerHTML = hours + "h " + minutes + "m " + seconds + "s ";
+            }, 1000);
         }
     </script>
 </body>
